@@ -1,0 +1,8 @@
+#!env node
+"require strict";
+
+var whois = require('../src/whois');
+
+whois('xalior.com');
+whois('kelsen.co.uk');
+whois('waterside-development.co.uk');
