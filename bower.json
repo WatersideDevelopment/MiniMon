@@ -9,5 +9,8 @@
   "private": true,
   "dependencies": {
     "bourbon": "~4.2.3"
+  },
+  "devDependencies": {
+    "neat": "~1.7.2"
   }
 }

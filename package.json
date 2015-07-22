@@ -4,19 +4,27 @@
   "main": "ui/index.html",
   "description": "A Mini Monitoring Application",
   "window": {
-     "title": "MiniMon",
-     "width": 400,
-     "height": 520,
-     "min-width": 400,
-     "max-width": 400,
-     "min-height": 520,
-     "max-height": 520,
-     "toolbar": false,
-     "frame": true
+    "title": "MiniMon",
+    "width": 400,
+    "height": 520,
+    "min-width": 400,
+    "max-width": 400,
+    "min-height": 520,
+    "max-height": 520,
+    "toolbar": false,
+    "frame": true
   },
-  "dependencies": {
+  "scripts": {
+    "start": "./node_modules/nw-builder/bin/nwbuild -r ."
   },
+  "dependencies": {},
   "devDependencies": {
+    "bower": "^1.4.1",
+    "gulp": "^3.9.0",
+    "gulp-expect-file": "0.0.7",
+    "gulp-flatten": "^0.1.0",
+    "gulp-sass": "^2.0.4",
+    "gulp-util": "^3.0.6",
     "nw-builder": "^2.0.1"
   }
 }

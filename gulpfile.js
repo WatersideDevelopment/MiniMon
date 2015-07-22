@@ -40,9 +40,12 @@ gulp.task('sass', function (done) {
     gulp.src('src/sass/minimon.scss')
         .pipe(expect('src/sass/minimon.scss'))
         .pipe(sass({
-            includePaths: ['./bower_components/bourbon/app/assets/stylesheets/bourbon']
+            includePaths:[
+                './bower_components/bourbon/app/assets/stylesheets',
+                './bower_components/neat/app/assets/stylesheets'
+            ]
         }))
-        .pipe(gulp.dest('./ui/minimon.css'))
+        .pipe(gulp.dest('./ui'))
         .on('end', done);
 });
 
