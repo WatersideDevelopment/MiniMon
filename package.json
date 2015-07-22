@@ -1,5 +1,22 @@
 {
+  "name": "MiniMon",
+  "version": "0.0.1",
+  "main": "ui/index.html",
+  "description": "A Mini Monitoring Application",
+  "window": {
+     "title": "MiniMon",
+     "width": 400,
+     "height": 520,
+     "min-width": 400,
+     "max-width": 400,
+     "min-height": 520,
+     "max-height": 520,
+     "toolbar": false,
+     "frame": true
+  },
   "dependencies": {
-    "whois-available": "^0.2.2"
+  },
+  "devDependencies": {
+    "nw-builder": "^2.0.1"
   }
 }

@@ -1,0 +1,13 @@
+{
+  "name": "MiniMon",
+  "version": "0.0.1",
+  "homepage": "https://github.com/WatersideDevelopment/MiniMon",
+  "authors": [
+    "D. Rimron-Soutter <darran@xalior.com>"
+  ],
+  "description": "MiniMin - A Mini Monitor",
+  "private": true,
+  "dependencies": {
+    "bourbon": "~4.2.3"
+  }
+}
