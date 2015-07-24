@@ -18,7 +18,9 @@
     "start": "./node_modules/nw-builder/bin/nwbuild -r ."
   },
   "dependencies": {
-    "net-ping": "^1.1.11"
+    "nconf": "^0.7.1",
+    "net-ping": "^1.1.11",
+    "node-crontab": "0.0.8"
   },
   "devDependencies": {
     "bower": "^1.4.1",
