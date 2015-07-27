@@ -28,6 +28,9 @@ node_modules
 # http://stackoverflow.com/questions/22327758/should-bower-components-be-gitignored
 bower_components
 
+# Gulp output
+output/
+
 # .idea stuff that is 'personal...
 .idea/workspace.xml
 .idea/uiDesigner.xml
