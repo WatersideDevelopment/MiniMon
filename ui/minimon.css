@@ -6068,9 +6068,6 @@ html, body {
 .container.full-screen {
   padding-top: 20px; }
 
-.fullscreen {
-  margin-top: 20px; }
-
 .row-flex, .row-flex > div[class*='col-'] {
   display: -webkit-box;
   display: -moz-box;
@@ -6086,7 +6083,7 @@ html, body {
   flex: 0; }
 
 .row-flex > div[class*='col-'], .container-flex > div[class*='col-'] {
-  margin: -.2px;
+  margin: -.25px;
   /* hack adjust for wrapping */ }
 
 .container-flex > div[class*='col-'] div, .row-flex > div[class*='col-'] div {

@@ -26,6 +26,10 @@ if(typeof tests == 'undefined') {
 }
 
 tests.forEach(function(testdata) {
+    // do them at at boot -- so we have data for our UI... before the cron goes off...
+    monitor(testdata);
+
+    // and schedule again....
     testdata.jobId = crontab.scheduleJob(testdata.cron, function(testdata){
         console.log('testTime');
         console.info(monitor(testdata));
