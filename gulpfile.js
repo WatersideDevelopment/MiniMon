@@ -2,7 +2,8 @@ var gulp = require('gulp');
 var gutil = require('gulp-util');
 var bower = require('bower');
 var sass = require('gulp-sass');
-//var concat = require('gulp-concat');
+var run = require('gulp-run');
+var concat = require('gulp-concat');
 //var rename = require('gulp-rename');
 //var connect = require('gulp-connect');
 var flatten = require('gulp-flatten');
@@ -10,10 +11,11 @@ var expect = require('gulp-expect-file');
 
 var paths = {
     js: [
-        'bower_components/jquery/dist/jquery.js ',
-        'src/napkins.js'],
+        'bower_components/jquery/dist/jquery.js'
+    ],
     sass: [
-        'src/sass/minimon.scss']
+        'src/sass/minimon.scss'
+    ]
 };
 
 gulp.task('default', [
@@ -28,11 +30,18 @@ gulp.task('build', [
     ]
 );
 
+gulp.task('run', function (done) {
+    run('npm start &').exec()
+        .pipe(gulp.dest('output'))
+        .on('end', done);
+});
+
 gulp.task('js', function (done) {
     gulp.src(paths.js)
         .pipe(expect(paths.js))
+        .pipe(concat('fe.js'))
         .pipe(flatten())
-        .pipe(gulp.dest('./example/'))
+        .pipe(gulp.dest('./ui'))
         .on('end', done);
 });
 
@@ -41,8 +50,7 @@ gulp.task('sass', function (done) {
         .pipe(expect('src/sass/minimon.scss'))
         .pipe(sass({
             includePaths:[
-                './bower_components/bourbon/app/assets/stylesheets',
-                './bower_components/neat/app/assets/stylesheets'
+                './bower_components/bootstrap-sass/assets/stylesheets'
             ]
         }))
         .pipe(gulp.dest('./ui'))
@@ -50,8 +58,8 @@ gulp.task('sass', function (done) {
 });
 
 gulp.task('watch', function () {
-    gulp.watch(paths.distjs, ['fulljs', 'distjs', 'examplejs']);
-    gulp.watch(paths.distcss, ['examplecss']);
+    gulp.watch(paths.js, ['js']);
+    gulp.watch(paths.sass, ['sass']);
 });
 
 gulp.task('install', function () {
