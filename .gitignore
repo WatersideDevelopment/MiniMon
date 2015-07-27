@@ -31,6 +31,9 @@ bower_components
 # Gulp output
 output/
 
+#
+npm-debug.log*
+
 # .idea stuff that is 'personal...
 .idea/workspace.xml
 .idea/uiDesigner.xml
