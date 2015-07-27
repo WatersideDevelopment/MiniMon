@@ -19,6 +19,7 @@
     "start": "./node_modules/nw-builder/bin/nwbuild -r ."
   },
   "dependencies": {
+    "bluebird": "^2.9.34",
     "merge": "^1.2.0",
     "nconf": "^0.7.1",
     "net-ping": "^1.1.11",

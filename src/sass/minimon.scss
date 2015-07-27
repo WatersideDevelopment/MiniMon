@@ -1,37 +1,44 @@
-@import "bootstrap";
+@import 'bootstrap';
 
-html,body {
+html,
+body {
   height: 100%;
+
 }
+
 .container {
   height: 100%;
+
+  .full-screen {
+    padding-top: 20px;
+  }
 }
 
-.container.full-screen {
-  padding-top: 20px;
-}
-
-.row-flex, .row-flex > div[class*='col-'] {
+.row-flex,
+.row-flex > div[class*='col-'] {
+  display: flex;
   display: -webkit-box;
   display: -moz-box;
   display: -ms-flexbox;
   display: -webkit-flex;
-  display: flex;
-  flex:1 1 auto;
+  flex: 1 1 auto;
   height: 100%;
 }
+
 .row-flex-wrap {
   -webkit-flex-flow: row wrap;
   align-content: flex-start;
-  flex:0;
+  flex: 0;
 }
 
-.row-flex > div[class*='col-'], .container-flex > div[class*='col-'] {
-  margin:-.25px; /* hack adjust for wrapping */
+.row-flex > div[class*='col-'],
+.container-flex > div[class*='col-'] {
+  margin: -.25px; // hack adjust for wrapping
 }
 
-.container-flex > div[class*='col-'] div,.row-flex > div[class*='col-'] div {
-  width:100%;
+.container-flex > div[class*='col-'] div,
+.row-flex > div[class*='col-'] div {
+  width: 100%;
 }
 
 .flex-col {

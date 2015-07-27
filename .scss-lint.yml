@@ -1,0 +1,9 @@
+linters:
+  ImportPath:
+    enabled: true
+  QualifyingElement:
+    enabled: false
+  VendorPrefix:
+    enabled: false
+  PropertySortOrder:
+    enabled: false

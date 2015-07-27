@@ -30,22 +30,24 @@ gulp.task('build', [
     ]
 );
 
-gulp.task('run', function (done) {
+var run = function (done) {
     run('npm start &').exec()
         .pipe(gulp.dest('output'))
         .on('end', done);
-});
+};
+gulp.task('run', run);
 
-gulp.task('js', function (done) {
+var js = function (done) {
     gulp.src(paths.js)
         .pipe(expect(paths.js))
         .pipe(concat('fe.js'))
         .pipe(flatten())
         .pipe(gulp.dest('./ui'))
         .on('end', done);
-});
+};
+gulp.task('js', js);
 
-gulp.task('sass', function (done) {
+var sass = function(done) {
     gulp.src('src/sass/minimon.scss')
         .pipe(expect('src/sass/minimon.scss'))
         .pipe(sass({
@@ -55,35 +57,42 @@ gulp.task('sass', function (done) {
         }))
         .pipe(gulp.dest('./ui'))
         .on('end', done);
-});
+};
+gulp.task('sass', sass);
 
-gulp.task('watch', function () {
+var _watch = function(done) {
     gulp.watch(paths.js, ['js']);
     gulp.watch(paths.sass, ['sass']);
-});
+};
+gulp.task('watch', _watch);
 
-gulp.task('install', function () {
+var install = function (done) {
     return bower.commands.install()
         .on('log', function (data) {
             gutil.log('bower', gutil.colors.cyan(data.id), data.message);
-        });
-});
+        })
+        .on('end', function(data) {
+            done();
+        })
+};
+gulp.task('install', install);
 
-//gulp.task('server', function () {
-//    connect.server({
-//        root: ['example'],
-//        port: 8080,
-//        livereload: true,
-//        middleware: function (connect, o) {
-//            return [
-//                (function () {
-//                    var url = require('url');
-//                    var proxy = require('proxy-middleware');
-//                    var options = url.parse('http://yolanda.vpn:5984/');
-//                    options.route = '/db/';
-//                    return proxy(options);
-//                })()
-//            ]
-//        }
-//    });
-//});
+var server = function(done) {
+    connect.server({
+        root: ['example'],
+        port: 8080,
+        livereload: true,
+        middleware: function (connect, o) {
+            return [
+                (function () {
+                    var url = require('url');
+                    var proxy = require('proxy-middleware');
+                    var options = url.parse('http://yolanda.vpn:5984/');
+                    options.route = '/db/';
+                    return proxy(options);
+                })()
+            ]
+        }
+    });
+};
+gulp.task('server', server);
