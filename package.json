@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "main": "ui/index.html",
   "description": "A Mini Monitoring Application",
+  "repository": "https://github.com/WatersideDevelopment/MiniMon.git",
   "window": {
     "title": "MiniMon",
     "width": 400,
