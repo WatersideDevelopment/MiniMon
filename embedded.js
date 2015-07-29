@@ -3,45 +3,45 @@ var nconf = require('nconf'),
     crontab = require('node-crontab'),
     monitor = require('./lib/monitor');
 
-var app = this;
+var tests;
 
-module.exports = function(conffile) {
+var renderCheck = function (res, testdata) {
+    if (typeof testdata.checks == 'function') {
+        // custom checker, not MSint based...
+        return testdata.checks(res);
+    } else {
+        // should be an array
+        return defaultCheck(res, testdata);
+    }
+};
+
+var defaultCheck = function (res, testdata) {
+    if (res < 0) {
+        return ('ERROR');
+    } else {
+        if (res < testdata.checks[0]) {
+            return ('GREEN');
+        } else if (res < testdata.checks[1]) {
+            return ('AMBER')
+        } else {
+            return ('RED')
+        }
+    }
+};
+
+var app = function(conffile) {
     nconf.argv()
         .env()
         .file({file: conffile})
         .load();
 
-    var tests = nconf.get('tests');
+    tests = nconf.get('tests');
 
     // die without tests
     if (typeof tests == 'undefined') {
         console.error('NO TESTS FOUND');
         process.exit(-1);
     }
-
-    var renderCheck = function (res, testdata) {
-        if (typeof testdata.checks == 'function') {
-            // custom checker, not MSint based...
-            return testdata.checks(res);
-        } else {
-            // should be an array
-            return defaultCheck(res, testdata);
-        }
-    };
-
-    var defaultCheck = function (res, testdata) {
-        if (res < 0) {
-            return ('ERROR');
-        } else {
-            if (res < testdata.checks[0]) {
-                return ('GREEN');
-            } else if (res < testdata.checks[1]) {
-                return ('AMBER')
-            } else {
-                return ('RED')
-            }
-        }
-    };
 
     tests.forEach(function (testdata) {
         // do them at at boot -- so we have data for our UI... before the cron goes off...
@@ -65,3 +65,5 @@ module.exports = function(conffile) {
         );
     });
 };
+
+module.exports = app;
