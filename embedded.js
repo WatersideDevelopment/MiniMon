@@ -49,7 +49,7 @@ var minimon = {
                 .then(function (res) {
                     testdata.res = res;
                     testdata.state = renderCheck(res, testdata);
-                    console.log('first test res: ' + testdata.res + " " + testdata.state);
+                    console.log('first test for ' + testdata.name + ":" + testdata.res + " " + testdata.state);
                     // and schedule again....
                     testdata.jobId = crontab.scheduleJob(testdata.cron, function (testdata) {
                         console.log('testTime');

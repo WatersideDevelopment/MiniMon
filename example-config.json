@@ -9,6 +9,12 @@
         67
       ],
       "cron": "* * * * *"
+    },
+    {
+      "name": "MiniMon RUnning",
+      "type": "ps",
+      "command": "MiniMon",
+      "cron": "* * * * *"
     }
   ]
 }

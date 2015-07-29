@@ -24,7 +24,8 @@
     "merge": "^1.2.0",
     "nconf": "^0.7.1",
     "net-ping": "^1.1.11",
-    "node-crontab": "0.0.8"
+    "node-crontab": "0.0.8",
+    "ps-node": "0.0.4"
   },
   "devDependencies": {
     "nw-builder": "^2.0.1",
