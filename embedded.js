@@ -3,8 +3,6 @@ var nconf = require('nconf'),
     crontab = require('node-crontab'),
     monitor = require('./lib/monitor');
 
-var tests;
-
 var renderCheck = function (res, testdata) {
     if (typeof testdata.checks == 'function') {
         // custom checker, not MSint based...
@@ -29,41 +27,48 @@ var defaultCheck = function (res, testdata) {
     }
 };
 
-var app = function(conffile) {
-    nconf.argv()
-        .env()
-        .file({file: conffile})
-        .load();
+var minimon = {
+    tests: undefined,
+    app: function(conffile) {
+        nconf.argv()
+            .env()
+            .file({file: conffile})
+            .load();
 
-    tests = nconf.get('tests');
+        minimon.tests = nconf.get('tests');
 
-    // die without tests
-    if (typeof tests == 'undefined') {
-        console.error('NO TESTS FOUND');
-        process.exit(-1);
+        // die without tests
+        if (typeof minimon.tests == 'undefined') {
+            console.error('NO TESTS FOUND');
+            process.exit(-1);
+        }
+
+        minimon.tests.forEach(function (testdata) {
+            // do them at at boot -- so we have data for our UI... before the cron goes off...
+            monitor(testdata)
+                .then(function (res) {
+                    testdata.res = res;
+                    testdata.state = renderCheck(res, testdata);
+                    console.log('first test res: ' + testdata.res + " " + testdata.state);
+                    // and schedule again....
+                    testdata.jobId = crontab.scheduleJob(testdata.cron, function (testdata) {
+                        console.log('testTime');
+                        monitor(testdata)
+                            .then(function (res) {
+                                testdata.res = res;
+                                testdata.state = renderCheck(res, testdata);
+                                console.log('scheduled test res: ' + testdata.res + " " + testdata.state);
+                            })
+                            .then(function () {
+                                console.log('end of testTime');
+                            });
+                    }, [testdata], minimon.app);
+
+                    console.log(testdata.name + " scheduled as jobId " + testdata.jobId);
+                }
+            );
+        });
     }
-
-    tests.forEach(function (testdata) {
-        // do them at at boot -- so we have data for our UI... before the cron goes off...
-        monitor(testdata)
-            .then(function (res) {
-                console.log('first test res: ' + res + " " + renderCheck(res, testdata));
-                // and schedule again....
-                testdata.jobId = crontab.scheduleJob(testdata.cron, function (testdata) {
-                    console.log('testTime');
-                    monitor(testdata)
-                        .then(function (res) {
-                            console.log('schedlued test res: ' + res + " " + renderCheck(res, testdata));
-                        })
-                        .then(function () {
-                            console.log('end of testTime');
-                        });
-                }, [testdata], app);
-
-                console.log(testdata.name + " scheduled as jobId " + testdata.jobId);
-            }
-        );
-    });
 };
 
-module.exports = app;
+module.exports = minimon;
