@@ -30,14 +30,14 @@ gulp.task('build', [
     ]
 );
 
-var run = function (done) {
+var _run = function (done) {
     run('npm start &').exec()
         .pipe(gulp.dest('output'))
         .on('end', done);
 };
-gulp.task('run', run);
+gulp.task('run', _run);
 
-var js = function (done) {
+var _js = function (done) {
     gulp.src(paths.js)
         .pipe(expect(paths.js))
         .pipe(concat('fe.js'))
@@ -45,11 +45,11 @@ var js = function (done) {
         .pipe(gulp.dest('./ui'))
         .on('end', done);
 };
-gulp.task('js', js);
+gulp.task('js', _js);
 
-var sass = function(done) {
-    gulp.src('src/sass/minimon.scss')
-        .pipe(expect('src/sass/minimon.scss'))
+var _sass = function(done) {
+    gulp.src(paths.sass)
+        .pipe(expect(paths.sass))
         .pipe(sass({
             includePaths:[
                 './bower_components/bootstrap-sass/assets/stylesheets'
@@ -58,7 +58,8 @@ var sass = function(done) {
         .pipe(gulp.dest('./ui'))
         .on('end', done);
 };
-gulp.task('sass', sass);
+
+gulp.task('sass', _sass);
 
 var _watch = function(done) {
     gulp.watch(paths.js, ['js']);
@@ -66,7 +67,7 @@ var _watch = function(done) {
 };
 gulp.task('watch', _watch);
 
-var install = function (done) {
+var _install = function (done) {
     return bower.commands.install()
         .on('log', function (data) {
             gutil.log('bower', gutil.colors.cyan(data.id), data.message);
@@ -75,9 +76,9 @@ var install = function (done) {
             done();
         })
 };
-gulp.task('install', install);
+gulp.task('install', _install);
 
-var server = function(done) {
+var _server = function(done) {
     connect.server({
         root: ['example'],
         port: 8080,
@@ -95,4 +96,4 @@ var server = function(done) {
         }
     });
 };
-gulp.task('server', server);
+gulp.task('server', _server);
