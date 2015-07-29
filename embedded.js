@@ -1,31 +1,8 @@
 "use strict";
-var nconf = require('nconf'),
+var Promise = require('bluebird'),
+    nconf = require('nconf'),
     crontab = require('node-crontab'),
     monitor = require('./lib/monitor');
-
-var renderCheck = function (res, testdata) {
-    if (typeof testdata.checks == 'function') {
-        // custom checker, not MSint based...
-        return testdata.checks(res);
-    } else {
-        // should be an array
-        return defaultCheck(res, testdata);
-    }
-};
-
-var defaultCheck = function (res, testdata) {
-    if (res < 0) {
-        return ('ERROR');
-    } else {
-        if (res < testdata.checks[0]) {
-            return ('GREEN');
-        } else if (res < testdata.checks[1]) {
-            return ('AMBER')
-        } else {
-            return ('RED')
-        }
-    }
-};
 
 var minimon = {
     tests: undefined,
@@ -47,8 +24,6 @@ var minimon = {
             // do them at at boot -- so we have data for our UI... before the cron goes off...
             monitor(testdata)
                 .then(function (res) {
-                    testdata.res = res;
-                    testdata.state = renderCheck(res, testdata);
                     console.log('first test for ' + testdata.name + ":" + testdata.res + " " + testdata.state);
                     // and schedule again....
                     testdata.jobId = crontab.scheduleJob(testdata.cron, function (testdata) {

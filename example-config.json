@@ -10,11 +10,17 @@
       ],
       "cron": "* * * * *"
     },
-    {
-      "name": "MiniMon RUnning",
-      "type": "ps",
-      "command": "MiniMon",
-      "cron": "* * * * *"
-    }
+      {
+          "name": "Node Running",
+          "type": "ps",
+          "command": "node",
+          "cron": "* * * * *"
+      },
+      {
+          "name": "MySQLd Running",
+          "type": "ps",
+          "command": "mysqld",
+          "cron": "* * * * *"
+      }
   ]
 }
