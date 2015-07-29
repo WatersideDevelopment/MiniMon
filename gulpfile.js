@@ -22,7 +22,13 @@ gulp.task('default', [
         'build',
         'run'
     ]
-);
+)
+
+gulp.task('dev', [
+        'build',
+        'watch'
+    ]
+);;
 
 gulp.task('build', [
 	    'js',
@@ -58,7 +64,6 @@ var _sass = function(done) {
         .pipe(gulp.dest('./ui'))
         .on('end', done);
 };
-
 gulp.task('sass', _sass);
 
 var _watch = function(done) {
