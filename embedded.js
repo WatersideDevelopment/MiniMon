@@ -6,7 +6,7 @@ var Promise = require('bluebird'),
 
 var minimon = {
     tests: undefined,
-    app: function(conffile) {
+    app: function(conffile, publish) {
         nconf.argv()
             .env()
             .file({file: conffile})
@@ -20,19 +20,27 @@ var minimon = {
             process.exit(-1);
         }
 
+	if (typeof publish == 'undefined') {
+		publish = function(testdata) {
+                        console.log('test results for ' + testdata.name + ":" + testdata.res + " " + testdata.state);
+		}
+	}
+
+	var testCount = 0;
         minimon.tests.forEach(function (testdata) {
+            // fingerprint the test....
+            testdata.id = testCount;
             // do them at at boot -- so we have data for our UI... before the cron goes off...
+            console.log('first test for "' + testdata.name + '":' + JSON.stringify(testdata));
             monitor(testdata)
-                .then(function (res) {
-                    console.log('first test for ' + testdata.name + ":" + testdata.res + " " + testdata.state);
+                .then(function () {
+                    publish(testdata);
                     // and schedule again....
                     testdata.jobId = crontab.scheduleJob(testdata.cron, function (testdata) {
-                        console.log('testTime');
+                        console.log('scheduled test for "' + testdata.name + '":'  + JSON.stringify(testdata) + " " + testdata.state);
                         monitor(testdata)
-                            .then(function (res) {
-                                testdata.res = res;
-                                testdata.state = renderCheck(res, testdata);
-                                console.log('scheduled test res: ' + testdata.res + " " + testdata.state);
+                            .then(function () {
+                                publish(testdata);
                             })
                             .then(function () {
                                 console.log('end of testTime');
@@ -42,6 +50,7 @@ var minimon = {
                     console.log(testdata.name + " scheduled as jobId " + testdata.jobId);
                 }
             );
+	    testCount++;
         });
     }
 };
