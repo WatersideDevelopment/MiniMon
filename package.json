@@ -5,6 +5,9 @@
   "main": "ui/index.html",
   "description": "A Mini Monitoring Application",
   "repository": "https://github.com/WatersideDevelopment/MiniMon.git",
+  "scripts": {
+    "postinstall": "node_modules/bower/bin/bower install -F"
+  },
   "window": {
     "title": "MiniMon",
     "width": 400,
