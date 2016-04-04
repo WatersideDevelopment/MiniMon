@@ -6,7 +6,8 @@
   "description": "A Mini Monitoring Application",
   "repository": "https://github.com/WatersideDevelopment/MiniMon.git",
   "scripts": {
-    "postinstall": "node_modules/bower/bin/bower install -F"
+    "postinstall": "node_modules/bower/bin/bower install -F",
+    "start": "./node_modules/nw-builder/bin/nwbuild -r ."
   },
   "window": {
     "title": "MiniMon",
@@ -18,9 +19,6 @@
     "max-height": 520,
     "toolbar": false,
     "frame": true
-  },
-  "scripts": {
-    "start": "./node_modules/nw-builder/bin/nwbuild -r ."
   },
   "dependencies": {
     "bluebird": "^2.9.34",
